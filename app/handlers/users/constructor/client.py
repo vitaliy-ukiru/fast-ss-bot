@@ -4,6 +4,7 @@ from aiogram.utils.markdown import hbold, hcode
 from loguru import logger
 
 from app.config import position_buttons
+from app.keyboards import choice_text_position
 from app.states.screenshot_situation_states import Constructor
 from .server_response import create_image
 
@@ -49,16 +50,16 @@ async def save_text_image(msg: types.Message, state: FSMContext):
     else:
         return await msg.answer('Нужно отправить картинку документом!')
 
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    markup.add(*position_buttons)
     await msg.answer('Где расположить текст?',
-                     reply_markup=markup)
+                     reply_markup=choice_text_position())
 
     await Constructor.next()
 
 
 async def get_text_position_on_image(msg: types.Message, state: FSMContext):
+    #      0        1
     # ["Сверху", "Снизу"]
+
     if msg.text == position_buttons[0]:
         position = 0
     elif msg.text == position_buttons[1]:

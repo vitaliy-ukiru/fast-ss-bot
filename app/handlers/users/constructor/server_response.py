@@ -4,8 +4,8 @@ from typing import Union
 from PIL import Image
 from aiogram.dispatcher import FSMContext
 from aiogram.types import Message, PhotoSize, Document
-from loguru import logger
 
+from app.config import PIN_ADMIN
 from app.service.paste_image import build_image
 from app.utils.notify_admin import error_notify
 
@@ -32,14 +32,15 @@ async def create_image(msg: Message, state: FSMContext):
                 return await msg.answer(
                     'Произошла ошибка. '
                     'Скорее всего картинка с отыгровками сжата.\n'
-                    'Я отправил отчёт администратору (@vitaliy_ukiru)'
+                    'Я отправил отчёт администратору ({})'.format(PIN_ADMIN)
                 )
+            else:
+                byte_io = BytesIO()
+                byte_io.name = 'done.png'
+                final_img.save(byte_io, 'PNG')
+                byte_io.seek(0)
 
-            byte_io = BytesIO()
-            byte_io.name = 'done.png'
-            final_img.save(byte_io, 'PNG')
-            byte_io.seek(0)
-
-            await msg.answer_document(document=byte_io, caption='Готово')
+                await msg.answer_document(document=byte_io,
+                                          caption='Готово')
 
         await state.finish()
