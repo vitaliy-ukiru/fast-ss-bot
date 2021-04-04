@@ -5,7 +5,7 @@ from app.config import BOT_COMMANDS, PIN_ADMIN, GITHUB_REPO
 START_TEXT = 'Привет! Перед работай со мной почитай /about и /help. Там вся ' \
              'информация'
 
-commands = [f'/{name} - {hcode("desc")}\n' for name, desc in BOT_COMMANDS.items()]
+commands = [f'/{name} - {hcode(desc)}\n' for name, desc in BOT_COMMANDS.items()]
 
 HELP_TEXT = f"""
 <code>Команды бота</code>
