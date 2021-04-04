@@ -11,6 +11,10 @@ from app.middlewares import middlewares_setup
 from app import utils
 
 
+def at_exit():
+    logger.warning('\u001b[31;1m Stop program \u001b[0m')
+
+
 async def on_startup(dispatcher: Dispatcher):
     handlers_setup(dispatcher)
     middlewares_setup(dispatcher)
@@ -20,12 +24,7 @@ async def on_startup(dispatcher: Dispatcher):
 
 
 async def on_shutdown(dispatcher: Dispatcher):
-    await dispatcher.bot.close()
     await utils.on_shutdown_notify(dispatcher)
-
-
-def at_exit():
-    logger.warning('\u001b[31;1m Stop program \u001b[0m')
 
 
 if __name__ == '__main__':
