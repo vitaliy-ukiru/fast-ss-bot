@@ -11,8 +11,7 @@ def build_image(main_img: Image.Image, text_img: Image.Image, position: int = 1)
     else:
         height_position = 8
 
-    text_img = delete_black(text_img)
-    text_img = create_border(text_img)
+    text_img = create_border(delete_black(text_img))
 
     main_img.paste(
         text_img,
