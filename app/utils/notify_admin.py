@@ -1,10 +1,10 @@
 import logging
 
 from aiogram import Dispatcher, Bot
-from aiogram.types import Message
-from aiogram.utils.markdown import hcode, hbold
+from aiogram.types import Message, User
 
 from app.config import ADMIN_ID
+from app.service.texts import admin_error_text
 
 
 async def on_startup_notify(dp: Dispatcher):
@@ -33,16 +33,6 @@ async def send_to_admin(message_text: str) -> None:
     await bot.send_message(ADMIN_ID, message_text)
 
 
-async def error_notify(msg: Message, exp, document):
-    await msg.bot.send_document(
-        chat_id=ADMIN_ID, document=document,
-        caption='\n'.join([
-            f'{hbold("[Ошибка]")} | {hcode(exp)} |',
-            'Chat: [{id}]. {user}'.format(
-                id=msg.chat.id,
-                user=msg.from_user.get_mention(name='User',
-                                               as_html=True)
-            )
-        ])
-    )
-    return
+async def error_notify(msg: Message, err, document):
+    _text = admin_error_text(err, msg.from_user.get_mention('User', True), msg.chat.id)
+    return await msg.bot.send_document(ADMIN_ID, document, caption=_text)
