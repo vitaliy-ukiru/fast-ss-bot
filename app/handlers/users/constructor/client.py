@@ -1,18 +1,18 @@
+from aiogram.contrib.middlewares.fsm import FSMSStorageProxy
 from aiogram.dispatcher import FSMContext
-from aiogram import types
-from aiogram.utils.markdown import hbold, hcode
-from loguru import logger
+from aiogram.types import Message, ReplyKeyboardRemove
 
 from app.states import ConstructorSG
 from . import server_response, services
 
 
-async def stop_constructor(msg: types.Message, state: FSMContext):
+async def stop_constructor(msg: Message, state: FSMContext):
     await state.finish()
-    await msg.answer('Остановлено', reply_markup=types.ReplyKeyboardRemove())
+    await msg.answer('Остановлено', reply_markup=ReplyKeyboardRemove())
 
 
-async def start_constructor(msg: types.Message):
+async def start_constructor(msg: Message):
+    await ConstructorSG.get_background_image.set()
 
     return await msg.answer(services.START_TEXT)
 
