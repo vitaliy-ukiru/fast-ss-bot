@@ -5,5 +5,4 @@ from app.service.texts import ABOUT_TEXT
 
 
 async def about_command(msg: types.Message):
-    await msg.answer(ABOUT_TEXT,
-                     reply_markup=contact_urls())
+    return await msg.answer(ABOUT_TEXT, reply_markup=contact_urls())
