@@ -22,11 +22,9 @@ async def on_shutdown_notify(dp: Dispatcher):
         logging.exception(err)
 
 
-async def on_start_cmd_notify(bot: Bot, from_user) -> None:
+async def on_start_cmd_notify(from_user: User) -> None:
     await send_to_admin(
-        bot,
-        text=f'Use start command: @{from_user.username} | {from_user.id} | '
-             f'{from_user.get_mention(as_html=True)}'
+        f'Use start command: {from_user.get_mention(as_html=True)} | {from_user.id}'
     )
 
 
