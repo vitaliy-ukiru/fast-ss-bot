@@ -21,8 +21,7 @@ async def start_constructor(msg: Message):
 
     state_data['background_image'] = image
     await msg.answer(
-        'Отлично! \nТеперь отправьте фотографию с отыгровками на черном фоне, '
-        'таким же образом.'
+        'Отлично!\n Теперь отправьте фотографию с отыгровками на черном фоне, таким же образом.'
     )
     await ConstructorSG.next()
 
