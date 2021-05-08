@@ -5,8 +5,8 @@ from PIL import Image
 from aiogram.contrib.middlewares.fsm import FSMSStorageProxy
 from aiogram.types import Message, PhotoSize, Document
 
-from app.config import PIN_ADMIN
 from app.service.paste_image import build_image
+from app.service.texts import USER_ERROR_TEXT
 from app.utils.notify_admin import error_notify
 
 
@@ -27,11 +27,7 @@ async def create_image(msg: Message, state: FSMSStorageProxy):
             except Exception as exp:
                 await error_notify(msg, exp, document=text.file_id)
 
-                return await msg.answer(
-                    'Произошла ошибка. '
-                    'Скорее всего картинка с отыгровками сжата.\n'
-                    'Я отправил отчёт администратору ({})'.format(PIN_ADMIN)
-                )
+                return await msg.answer(USER_ERROR_TEXT)
             else:
                 byte_io = BytesIO()
                 byte_io.name = 'done.png'
