@@ -2,7 +2,7 @@ from io import BytesIO
 from typing import Union
 
 from PIL import Image
-from aiogram.dispatcher import FSMContext
+from aiogram.contrib.middlewares.fsm import FSMSStorageProxy
 from aiogram.types import Message, PhotoSize, Document
 
 from app.config import PIN_ADMIN
@@ -10,13 +10,12 @@ from app.service.paste_image import build_image
 from app.utils.notify_admin import error_notify
 
 
-async def create_image(msg: Message, state: FSMContext):
+async def create_image(msg: Message, state: FSMSStorageProxy):
     await msg.answer_chat_action('upload_document')
 
-    data = await state.get_data()
-    back: Union[PhotoSize, Document] = data['background_image']
-    text: Document = data['text_image']
-    text_position: int = data['text_position']
+    back: Union[PhotoSize, Document] = state['background_image']
+    text: Document = state['text_image']
+    text_position: int = state['text_position']
 
     with await back.download(BytesIO()) as background_im:
         with await text.download(BytesIO()) as text_im:
@@ -26,7 +25,6 @@ async def create_image(msg: Message, state: FSMContext):
             try:
                 final_img = build_image(main_img, text_img, text_position)
             except Exception as exp:
-                await state.finish()
                 await error_notify(msg, exp, document=text.file_id)
 
                 return await msg.answer(
@@ -42,5 +40,5 @@ async def create_image(msg: Message, state: FSMContext):
 
                 await msg.answer_document(document=byte_io,
                                           caption='Готово')
-
-        await state.finish()
+            finally:
+                return await state.fsm_context.finish()
