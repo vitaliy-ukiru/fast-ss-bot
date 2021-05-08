@@ -30,8 +30,9 @@ async def on_start_cmd_notify(bot: Bot, from_user) -> None:
     )
 
 
-async def send_to_admin(bot: Bot, text: str) -> None:
-    await bot.send_message(ADMIN_ID, text)
+async def send_to_admin(message_text: str) -> None:
+    bot = Bot.get_current()
+    await bot.send_message(ADMIN_ID, message_text)
 
 
 async def error_notify(msg: Message, exp, document):
