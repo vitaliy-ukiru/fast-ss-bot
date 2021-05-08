@@ -16,7 +16,6 @@ async def start_constructor(msg: Message):
 
     return await msg.answer(services.START_TEXT)
 
-    await Constructor.get_background_image.set()
 
 async def save_background_image(msg: Message, state_data: FSMSStorageProxy):
     image = services.get_picture(msg)
