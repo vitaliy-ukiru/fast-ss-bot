@@ -13,11 +13,16 @@ def delete_black(img: Image.Image):
 
 
 def _generate_cases(x: int, y: int):
-    yield x + 1, y
-    yield x - 1, y
-    yield x, y + 1
-    yield x, y - 1
+    cases = (
+        {'x': 1, 'y': 0},
+        {'x': -1, 'y': 0},
+        {'x': 0, 'y': 1},
+        {'x': 0, 'y': -1},
 
+    )
+
+    for case in cases:
+        yield x + case['x'], y + case['y']
 
 def _get_fill_pixels(pix: PyAccess.PyAccess, height: int, width: int) -> list:
     result = []
