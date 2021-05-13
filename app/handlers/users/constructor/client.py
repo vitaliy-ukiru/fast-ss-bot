@@ -2,6 +2,7 @@ from aiogram.contrib.middlewares.fsm import FSMSStorageProxy
 from aiogram.dispatcher import FSMContext
 from aiogram.types import Message, ReplyKeyboardRemove
 
+from app.config import position_buttons
 from app.states import ConstructorSG
 from . import server_response, services
 
@@ -12,20 +13,18 @@ async def stop_constructor(msg: Message, state: FSMContext):
 
 
 async def start_constructor(msg: Message):
-    await ConstructorSG.get_background_image.set()
-
+    await ConstructorSG.get_back_image.set()
     return await msg.answer(services.START_TEXT)
 
 
-async def save_background_image(msg: Message, state_data: FSMSStorageProxy):
+async def save_main_image(msg: Message, state_data: FSMSStorageProxy):
     image = services.get_picture(msg)
     if not image:
         return await msg.answer('Ты мне отправил не картинку.')
 
     state_data['background_image'] = image
-    await msg.answer(
-        'Отлично!\n Теперь отправьте фотографию с отыгровками на черном фоне, таким же образом.'
-    )
+    await msg.answer('Отлично!\n'
+                     'Теперь отправьте фотографию с отыгровками на черном фоне, таким же образом.')
     await ConstructorSG.next()
 
 
@@ -48,3 +47,17 @@ async def get_text_position_on_image(msg: Message, state_data: FSMSStorageProxy)
 
 async def other_message_handler(msg: Message):
     return await msg.answer('Если ты видишь это сообщение, значит что-то делаешь не так.')
+
+
+FILTERS = {
+    'stop_constructor': {'commands': 'stop', 'state': '*'},
+    'start_constructor': {'commands': 'create'},
+    'save_main_image': {'state': ConstructorSG.get_back_image, 'content_types': ['document', 'photo']},
+    'save_text_image': {'state': ConstructorSG.get_text_image, 'content_types': 'document'},
+    'get_text_position_on_image': {'text': position_buttons, 'state': ConstructorSG.get_position},
+    'other_message_handler': {'state': ConstructorSG}
+}
+
+
+def get_filters(func):
+    return FILTERS[str(func)]
