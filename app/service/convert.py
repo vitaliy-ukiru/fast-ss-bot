@@ -29,7 +29,8 @@ def _generate_cases(x: int, y: int):
     for case in cases:
         yield x + case['x'], y + case['y']
 
-def _get_fill_pixels(pix: PyAccess.PyAccess, height: int, width: int) -> list:
+
+def _get_fill_pixels(pix: PyAccess.PyAccess, width: int, height: int) -> list:
     result = []
     for x, y in _get_all_pixels(width, height):
         if pix[x, y][3] == 255:
