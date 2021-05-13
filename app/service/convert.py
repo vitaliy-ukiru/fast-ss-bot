@@ -48,8 +48,7 @@ def create_border(img: Image.Image):
 
     for fill_x, fill_y in fill_pixels:
         # Pixels around fill pixel
-        cases = _generate_cases(fill_x, fill_y)
-        for case_x, case_y in cases:
+        for case_x, case_y in _generate_cases(fill_x, fill_y):
             if pix[case_x, case_y] == (0, 0, 0, 0):
                 draw.point((case_x, case_y), (0, 0, 0, 255))
 
