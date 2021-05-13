@@ -1,6 +1,12 @@
 from PIL import Image, ImageDraw, PyAccess
 
 
+def _get_all_pixels(w: int, h: int):
+    for x in range(w):
+        for y in range(h):
+            yield x, y
+
+
 def delete_black(img: Image.Image):
     draw = ImageDraw.Draw(img)
     pix = img.load()
