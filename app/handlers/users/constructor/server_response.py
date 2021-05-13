@@ -26,7 +26,7 @@ async def create_image(msg: Message, state: FSMSStorageProxy):
             except Exception as exp:
                 await error_notify(msg, exp, text.file_id)
 
-                return await msg.answer(USER_ERROR_TEXT)
+                return await msg.answer(texts.USER_ERROR_TEXT)
             else:
                 byte_io = BytesIO()
                 byte_io.name = 'done.png'
