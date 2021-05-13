@@ -33,6 +33,6 @@ async def send_to_admin(message_text: str) -> None:
     await bot.send_message(ADMIN_ID, message_text)
 
 
-async def error_notify(msg: Message, err, document):
-    _text = admin_error_text(err, msg.from_user.get_mention('User', True), msg.chat.id)
+async def error_notify(msg: Message, error, document):
+    _text = admin_error_text(error, msg.from_user.get_mention('User', True), msg.chat.id)
     return await msg.bot.send_document(ADMIN_ID, document, caption=_text)
