@@ -44,7 +44,7 @@ def create_border(img: Image.Image):
     pix = img.load()
 
     # List for non-empty pixels
-    fill_pixels = _get_fill_pixels(pix, img.height, img.width)
+    fill_pixels = _get_fill_pixels(pix, *img.size)
 
     for fill_x, fill_y in fill_pixels:
         # Pixels around fill pixel
