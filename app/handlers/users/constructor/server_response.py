@@ -24,7 +24,7 @@ async def create_image(msg: Message, state: FSMSStorageProxy):
             try:
                 final_img = build_image(main_img, text_img, text_position)
             except Exception as exp:
-                await error_notify(msg, exp, document=text.file_id)
+                await error_notify(msg, exp, text.file_id)
 
                 return await msg.answer(USER_ERROR_TEXT)
             else:
@@ -33,7 +33,6 @@ async def create_image(msg: Message, state: FSMSStorageProxy):
                 final_img.save(byte_io, 'PNG')
                 byte_io.seek(0)
 
-                await msg.answer_document(document=byte_io,
-                                          caption='Готово')
+                await msg.answer_document(document=byte_io, caption='Готово')
             finally:
                 return await state.fsm_context.finish()
