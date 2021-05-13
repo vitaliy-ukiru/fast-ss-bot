@@ -5,8 +5,7 @@ from PIL import Image
 from aiogram.contrib.middlewares.fsm import FSMSStorageProxy
 from aiogram.types import Message, PhotoSize, Document
 
-from app.service.paste_image import build_image
-from app.service.texts import USER_ERROR_TEXT
+from app.service import build_image, texts
 from app.utils.notify_admin import error_notify
 
 
