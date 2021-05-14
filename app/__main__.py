@@ -1,14 +1,11 @@
 import atexit
 
-
 from aiogram import Dispatcher
 from aiogram.utils import executor
 from loguru import logger
 
-from app.handlers import handlers_setup
+from app import handlers, middlewares, utils
 from app.loader import dp
-from app.middlewares import middlewares_setup
-from app import utils
 
 
 def at_exit():
@@ -16,8 +13,9 @@ def at_exit():
 
 
 async def on_startup(dispatcher: Dispatcher):
-    handlers_setup(dispatcher)
-    middlewares_setup(dispatcher)
+    handlers.setup(dispatcher)
+    middlewares.setup(dispatcher)
+
     await utils.setup_bot_commands(dispatcher)
     await utils.on_startup_notify(dispatcher)
     logger.warning('\033[1;34m Bot is successfully configured \033[0m')

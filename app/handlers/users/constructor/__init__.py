@@ -1,3 +1,5 @@
+__all__ = ['setup_handlers']
+
 from aiogram import Dispatcher
 from loguru import logger
 
@@ -7,7 +9,7 @@ from .client import (
 )
 
 
-def setup_constructor_handlers(dp: Dispatcher):
+def setup_handlers(dp: Dispatcher):
     # dp.register_message_handler(stop_constructor, commands=['stop'], state='*')
     # dp.register_message_handler(start_constructor, commands=['create'])
     # dp.register_message_handler(save_background_image, state=ConstructorSG.get_back_image,

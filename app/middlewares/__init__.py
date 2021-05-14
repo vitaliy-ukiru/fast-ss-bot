@@ -4,7 +4,7 @@ from aiogram.contrib.middlewares.fsm import FSMMiddleware
 from loguru import logger
 
 
-def middlewares_setup(dp: Dispatcher):
-    dp.middleware.setup(LoggingMiddleware())
-    dp.middleware.setup(FSMMiddleware())
+def setup(dp: Dispatcher):
+    dp.middleware.setup_handlers(LoggingMiddleware())
+    dp.middleware.setup_handlers(FSMMiddleware())
     logger.info('Middlewares are successfully configured')
