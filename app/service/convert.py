@@ -44,9 +44,9 @@ def create_border(img: Image.Image):
     # List for non-empty pixels
     fill_pixels = _get_fill_pixels(pix, *img.size)
 
-    for fill_x, fill_y in fill_pixels:
+    for fill_pixel in fill_pixels:
         # Pixels around fill pixel
-        for case_x, case_y in _generate_cases(fill_x, fill_y):
+        for case_x, case_y in _generate_cases(*fill_pixel):
             if pix[case_x, case_y] == (0, 0, 0, 0):
                 draw.point((case_x, case_y), (0, 0, 0, 255))
 
