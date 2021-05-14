@@ -24,7 +24,8 @@ async def save_main_image(msg: Message, state_data: FSMSStorageProxy):
 
     state_data['background_image'] = image
     await msg.answer('Отлично!\n'
-                     'Теперь отправьте фотографию с отыгровками на черном фоне, таким же образом.')
+                     'Теперь отправьте фотографию с отыгровками '
+                     'на черном фоне, таким же образом.')
     await ConstructorSG.next()
 
 
