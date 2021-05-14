@@ -7,23 +7,12 @@ def _get_all_pixels(w: int, h: int):
             yield x, y
 
 
-def delete_black(img: Image.Image):
-    draw = ImageDraw.Draw(img)
-    pix = img.load()
-
-    for x, y in _get_all_pixels(*img.size):
-        if pix[x, y] == (0, 0, 0, 255):
-            draw.point((x, y), (0, 0, 0, 0))
-    return img
-
-
 def _generate_cases(x: int, y: int):
     cases = (
         {'x': 1, 'y': 0},
         {'x': -1, 'y': 0},
         {'x': 0, 'y': 1},
         {'x': 0, 'y': -1},
-
     )
 
     for case in cases:
@@ -35,8 +24,17 @@ def _get_fill_pixels(pix: PyAccess.PyAccess, width: int, height: int) -> list:
     for x, y in _get_all_pixels(width, height):
         if pix[x, y][3] == 255:
             result.append((x, y))
-
     return result
+
+
+def delete_black(img: Image.Image):
+    draw = ImageDraw.Draw(img)
+    pix = img.load()
+
+    for x, y in _get_all_pixels(*img.size):
+        if pix[x, y] == (0, 0, 0, 255):
+            draw.point((x, y), (0, 0, 0, 0))
+    return img
 
 
 def create_border(img: Image.Image):
