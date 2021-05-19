@@ -1,3 +1,8 @@
+__all__ = (
+    'choice_text_position',
+    'position_buttons'
+)
+
 from aiogram.types import ReplyKeyboardMarkup
 
 from app.config import position_buttons

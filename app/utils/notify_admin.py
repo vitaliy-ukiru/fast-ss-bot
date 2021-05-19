@@ -1,10 +1,10 @@
 import logging
 
 from aiogram import Dispatcher, Bot
-from aiogram.types import Message
-from aiogram.utils.markdown import hcode, hbold
+from aiogram.types import Message, User
 
 from app.config import ADMIN_ID
+from app.service.texts import admin_error_text
 
 
 async def on_startup_notify(dp: Dispatcher):
@@ -22,28 +22,17 @@ async def on_shutdown_notify(dp: Dispatcher):
         logging.exception(err)
 
 
-async def on_start_cmd_notify(bot: Bot, from_user) -> None:
+async def on_start_cmd_notify(from_user: User) -> None:
     await send_to_admin(
-        bot,
-        text=f'Use start command: @{from_user.username} | {from_user.id} | '
-             f'{from_user.get_mention(as_html=True)}'
+        f'Use start command: {from_user.get_mention(as_html=True)} | {from_user.id}'
     )
 
 
-async def send_to_admin(bot: Bot, text: str) -> None:
-    await bot.send_message(ADMIN_ID, text)
+async def send_to_admin(message_text: str) -> None:
+    bot = Bot.get_current()
+    await bot.send_message(ADMIN_ID, message_text)
 
 
-async def error_notify(msg: Message, exp, document):
-    await msg.bot.send_document(
-        chat_id=ADMIN_ID, document=document,
-        caption='\n'.join([
-            f'{hbold("[Ошибка]")} | {hcode(exp)} |',
-            'Chat: [{id}]. {user}'.format(
-                id=msg.chat.id,
-                user=msg.from_user.get_mention(name='User',
-                                               as_html=True)
-            )
-        ])
-    )
-    return
+async def error_notify(msg: Message, error, document):
+    _text = admin_error_text(error, msg.from_user.get_mention('User', True), msg.chat.id)
+    return await msg.bot.send_document(ADMIN_ID, document, caption=_text)
