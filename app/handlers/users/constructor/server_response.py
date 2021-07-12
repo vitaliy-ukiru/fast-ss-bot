@@ -23,6 +23,9 @@ async def create_image(msg: Message, state: FSMSStorageProxy):
 
             try:
                 final_img = build_image(main_img, text_img, text_position)
+            except IndexError:
+                return await msg.answer(texts.INDEX_OUT_OF_IMAGE_ERROR)
+
             except Exception as exp:
                 await error_notify(msg, exp, text.file_id)
 
