@@ -5,6 +5,6 @@ from loguru import logger
 
 
 def setup(dp: Dispatcher):
-    dp.middleware.setup_handlers(LoggingMiddleware())
-    dp.middleware.setup_handlers(FSMMiddleware())
+    dp.middleware.setup(LoggingMiddleware())
+    dp.middleware.setup(FSMMiddleware())
     logger.info('Middlewares are successfully configured')

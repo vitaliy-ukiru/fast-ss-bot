@@ -61,4 +61,4 @@ FILTERS = {
 
 
 def get_filters(func):
-    return FILTERS[str(func)]
+    return FILTERS[str(func.__name__)]
