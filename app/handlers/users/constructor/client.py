@@ -61,5 +61,5 @@ FILTERS = {
 }
 
 
-def get_filters(func):
-    return FILTERS[str(func.__name__)]
+def setup_handler(func):
+    return {'callback': func} | FILTERS[str(func.__name__)]
